@@ -49,6 +49,10 @@ xflags::xflags! {
         cmd highlight {
             /// Enable rainbow highlighting of identifiers.
             optional --rainbow
+            /// Don't wrap the output in a code and pre block
+            optional --no-wrap-spans
+            /// Don't prepend a style tag
+            optional --no-style
         }
 
         /// Batch typecheck project and print summary statistics
@@ -239,6 +243,8 @@ pub struct Symbols;
 #[derive(Debug)]
 pub struct Highlight {
     pub rainbow: bool,
+    pub no_wrap_spans: bool,
+    pub no_style: bool,
 }
 
 #[derive(Debug)]

@@ -63,7 +63,29 @@ pub struct HighlightConfig<'a> {
     pub macro_bang: bool,
     /// Whether to highlight unresolved things be their syntax
     pub syntactic_name_ref_highlighting: bool,
+    /// Configuration for HTML output
+    pub html: HtmlConfig,
     pub minicore: MiniCore<'a>,
+}
+
+#[derive(Copy, Clone, Debug)]
+pub struct HtmlConfig {
+    /// Whether to include style tag in the output
+    pub include_style: bool,
+    /// Wrap span tags in code and pre tags
+    pub wrap_spans: bool,
+}
+
+impl HtmlConfig {
+    pub const fn default() -> Self {
+        Self { include_style: true, wrap_spans: true }
+    }
+}
+
+impl Default for HtmlConfig {
+    fn default() -> Self {
+        Self::default()
+    }
 }
 
 // Feature: Semantic Syntax Highlighting

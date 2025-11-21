@@ -114,7 +114,7 @@ pub use crate::{
         StaticIndex, StaticIndexedFile, TokenId, TokenStaticData, VendoredLibrariesConfig,
     },
     syntax_highlighting::{
-        HighlightConfig, HlRange,
+        HighlightConfig, HtmlConfig, HlRange,
         tags::{Highlight, HlMod, HlMods, HlOperator, HlPunct, HlTag},
     },
     test_explorer::{TestItem, TestItemKind},
@@ -737,8 +737,16 @@ impl Analysis {
     }
 
     /// Computes syntax highlighting for the given file.
-    pub fn highlight_as_html(&self, file_id: FileId, rainbow: bool) -> Cancellable<String> {
-        self.with_db(|db| syntax_highlighting::highlight_as_html(db, file_id, rainbow))
+    pub fn highlight_as_html(
+        &self,
+        file_id: FileId,
+        rainbow: bool,
+        no_wrap_spans: bool,
+        no_style: bool,
+    ) -> Cancellable<String> {
+        self.with_db(|db| {
+            syntax_highlighting::highlight_as_html(db, file_id, rainbow, no_wrap_spans, no_style)
+        })
     }
 
     /// Computes completions at the given position.

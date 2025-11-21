@@ -76,7 +76,7 @@ fn integrated_highlighting_benchmark() {
     {
         let _it = stdx::timeit("initial");
         let analysis = host.analysis();
-        analysis.highlight_as_html(file_id, false).unwrap();
+        analysis.highlight_as_html(file_id, false, false, false).unwrap();
     }
 
     {
@@ -97,7 +97,7 @@ fn integrated_highlighting_benchmark() {
         let _it = stdx::timeit("after change");
         let _span = profile::cpu_span();
         let analysis = host.analysis();
-        analysis.highlight_as_html(file_id, false).unwrap();
+        analysis.highlight_as_html(file_id, false, false, false).unwrap();
     }
 }
 

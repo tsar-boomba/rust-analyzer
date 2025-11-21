@@ -8,7 +8,7 @@ use syntax::AstNode;
 
 use crate::{
     FileId, RootDatabase,
-    syntax_highlighting::{HighlightConfig, highlight},
+    syntax_highlighting::{HighlightConfig, HtmlConfig, highlight},
 };
 
 pub(crate) fn highlight_as_html_with_config(
@@ -36,8 +36,15 @@ pub(crate) fn highlight_as_html_with_config(
     let hl_ranges = highlight(db, config, file_id.file_id(db), None);
     let text = file.to_string();
     let mut buf = String::new();
-    buf.push_str(STYLE);
-    buf.push_str("<pre><code>");
+
+    if config.html.include_style {
+        buf.push_str(STYLE);
+    }
+
+    if config.html.wrap_spans {
+        buf.push_str("<pre><code>");
+    }
+
     for r in &hl_ranges {
         let chunk = html_escape(&text[r.range]);
         if r.highlight.is_empty() {
@@ -54,11 +61,21 @@ pub(crate) fn highlight_as_html_with_config(
         };
         format_to!(buf, "<span class=\"{}\"{}>{}</span>", class, color, chunk);
     }
-    buf.push_str("</code></pre>");
+
+    if config.html.wrap_spans {
+        buf.push_str("</code></pre>");
+    }
+
     buf
 }
 
-pub(crate) fn highlight_as_html(db: &RootDatabase, file_id: FileId, rainbow: bool) -> String {
+pub(crate) fn highlight_as_html(
+    db: &RootDatabase,
+    file_id: FileId,
+    rainbow: bool,
+    no_wrap_spans: bool,
+    no_style: bool,
+) -> String {
     highlight_as_html_with_config(
         db,
         &HighlightConfig {
@@ -70,7 +87,8 @@ pub(crate) fn highlight_as_html(db: &RootDatabase, file_id: FileId, rainbow: boo
             operator: true,
             inject_doc_comment: true,
             macro_bang: true,
-            syntactic_name_ref_highlighting: false,
+            syntactic_name_ref_highlighting: true,
+            html: HtmlConfig { include_style: !no_style, wrap_spans: !no_wrap_spans },
             minicore: MiniCore::default(),
         },
         file_id,

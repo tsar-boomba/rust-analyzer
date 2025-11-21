@@ -9,5 +9,8 @@ dist = "run --package xtask --bin xtask -- dist"
 [target.x86_64-pc-windows-msvc]
 linker = "rust-lld"
 
+[target.aarch64-apple-darwin]
+linker = "rust-lld"
+
 [env]
 CARGO_WORKSPACE_DIR = { value = "", relative = true }

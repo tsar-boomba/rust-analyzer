@@ -5,7 +5,7 @@ use ide_db::{MiniCore, SymbolKind};
 use span::Edition;
 use test_utils::{AssertLinear, bench, bench_fixture, skip_slow_tests};
 
-use crate::{FileRange, HighlightConfig, HlTag, TextRange, fixture};
+use crate::{FileRange, HighlightConfig, HlTag, TextRange, fixture, syntax_highlighting::HtmlConfig};
 
 const HL_CONFIG: HighlightConfig<'_> = HighlightConfig {
     strings: true,
@@ -17,6 +17,7 @@ const HL_CONFIG: HighlightConfig<'_> = HighlightConfig {
     inject_doc_comment: true,
     macro_bang: true,
     syntactic_name_ref_highlighting: false,
+    html: HtmlConfig::default(),
     minicore: MiniCore::default(),
 };
 

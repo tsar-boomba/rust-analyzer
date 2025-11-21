@@ -13,6 +13,7 @@ use syntax::{
     ast::{self, AstNode, IsString, QuoteOffsets},
 };
 
+use crate::syntax_highlighting::HtmlConfig;
 use crate::{
     Analysis, HlMod, HlRange, HlTag, RootDatabase,
     doc_links::{doc_attributes, extract_definitions_from_docs, resolve_doc_path_for_def},
@@ -57,6 +58,7 @@ pub(super) fn ra_fixture(
                     specialize_operator: config.operator,
                     inject_doc_comment: config.inject_doc_comment,
                     macro_bang: config.macro_bang,
+                    html: HtmlConfig::default(),
                     // What if there is a fixture inside a fixture? It's fixtures all the way down.
                     // (In fact, we have a fixture inside a fixture in our test suite!)
                     minicore: config.minicore,
@@ -228,6 +230,7 @@ pub(super) fn doc_comment(
                 specialize_operator: config.operator,
                 inject_doc_comment: config.inject_doc_comment,
                 macro_bang: config.macro_bang,
+                html: HtmlConfig::default(),
                 minicore: config.minicore,
             },
             tmp_file_id,
